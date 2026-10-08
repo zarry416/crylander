@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Crylendar: 8-Bit Pixel Reef</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --deep-ocean: #060b18;
+      --card-bg: rgba(6, 14, 28, 0.85);
+      --card-border: #1e3a5f;
+      --sun-aqua: #48cae4;
+      --bubble-cyan: #90e0ef;
+      --clownfish-orange: #ff7b00;
+      --coral-pink: #ff5d8f;
+      --sand-gold: #ffe49e;
+      --text-main: #f0fdf4;
+      --text-dim: #94a3b8;
+      --pixel-edge: #020611;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      image-rendering: pixelated; 
+      -webkit-tap-highlight-color: transparent; 
+    }
+    
+    body { 
+      background-color: var(--deep-ocean);
+      /* Uses the pixel reef artwork directly embedded via Data URI */
+      background-image: 
+        linear-gradient(rgba(4, 10, 24, 0.45), rgba(2, 6, 16, 0.7)),
+        url('background.png'),
+        url('image_9a5af7.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      color: var(--text-main); 
+      font-family: 'Silkscreen', monospace;
+      padding-bottom: calc(90px + env(safe-area-inset-bottom));
+      min-height: 100vh;
+    }
+    
+    header { 
+      padding: max(14px, env(safe-area-inset-top)) 16px 12px; 
+      text-align: center;
+      position: sticky; 
+      top: 0; 
+      z-index: 30;
+      background: rgba(4, 9, 20, 0.92);
+      border-bottom: 4px solid var(--pixel-edge);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .mermaid-sprite {
+      font-size: 2.3rem;
+      display: inline-block;
+      animation: mermaidFloat 3s ease-in-out infinite;
+      filter: drop-shadow(2px 2px 0px #020611);
+    }
+
+    @keyframes mermaidFloat {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(-5deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    
+    h1 { 
+      font-size: 1.25rem; 
+      color: var(--sand-gold);
+      text-shadow: 2px 2px 0px var(--pixel-edge), -1px -1px 0px var(--clownfish-orange);
+      letter-spacing: 0.5px;
+    }
+    .subtitle {
+      font-family: 'VT323', monospace;
+      font-size: 1.35rem;
+      color: var(--bubble-cyan);
+      margin-top: 2px;
+      letter-spacing: 1px;
+    }
+    
+    .container { 
+      width: 100%; 
+      max-width: 620px; 
+      margin: 0 auto; 
+      padding: 14px 12px; 
+    }
+
+    .retro-card {
+      background: var(--card-bg);
+      border: 3px solid var(--pixel-edge);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.2), inset -2px -2px 0px rgba(0, 0, 0, 0.7), 4px 4px 0px rgba(0, 0, 0, 0.6);
+      margin-bottom: 18px;
+      padding: 16px 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .retro-header-bar {
+      background: linear-gradient(90deg, #0077b6, #48cae4);
+      color: #020611;
+      padding: 8px 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 2px solid var(--pixel-edge);
+      box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.7);
+      margin: -16px -14px 16px -14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    label { 
+      display: block; 
+      font-size: 0.78rem; 
+      color: var(--sun-aqua); 
+      margin-bottom: 6px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px;
+    }
+    
+    input, select, textarea { 
+      width: 100%; 
+      background: #030712; 
+      border: 2px solid #1e3a5f; 
+      color: var(--text-main); 
+      font-family: 'VT323', monospace;
+      font-size: 1.45rem;
+      padding: 9px 12px; 
+      margin-bottom: 16px; 
+      outline: none;
+      box-shadow: inset 2px 2px 0px #000;
+    }
+    input:focus, select:focus, textarea:focus { 
+      border-color: var(--sun-aqua); 
+      box-shadow: inset 2px 2px 0px #000, 0 0 6px var(--sun-aqua);
+    }
+
+    select option {
+      background: #0d1b2a;
+      color: var(--text-main);
+    }
+    
+    .row { display: flex; gap: 10px; }
+    .row > div { flex: 1; }
+    
+    .legend-scale { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 7px; 
+      margin-bottom: 16px; 
+    }
+    .legend-row { 
+      display: flex; 
+      align-items: center; 
+      background: #071224; 
+      border: 2px solid #1e3a5f; 
+      cursor: pointer; 
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1);
+    }
+    .legend-num { 
+      width: 44px; 
+      padding: 10px 0;
+      text-align: center; 
+      font-size: 1rem;
+      font-weight: bold;
+      color: #020611;
+      flex-shrink: 0;
+      border-right: 2px solid var(--pixel-edge);
+    }
+    .legend-text { 
+      padding: 0 12px; 
+      font-family: 'VT323', monospace;
+      font-size: 1.35rem;
+      color: #f0fdf4;
+      flex-grow: 1;
+      line-height: 1.2;
+    }
+    
+    .legend-row[data-val="1"] .legend-num { background: #e0f2fe; }
+    .legend-row[data-val="2"] .legend-num { background: #90e0ef; }
+    .legend-row[data-val="3"] .legend-num { background: #48cae4; }
+    .legend-row[data-val="4"] .legend-num { background: #0077b6; color: #fff; }
+    .legend-row[data-val="5"] .legend-num { background: #03045e; color: #fff; }
+
+    .legend-row.active {
+      border: 2px solid var(--clownfish-orange);
+      background: #0f2747;
+      box-shadow: 2px 2px 0px var(--clownfish-orange);
+    }
+    
+    .chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .chip {
+      background: #071224;
+      border: 2px solid #1e3a5f;
+      padding: 8px 12px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #cbd5e1;
+      box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.1);
+      line-height: 1.2;
+    }
+    .chip.active {
+      background: var(--clownfish-orange);
+      border-color: #ffd166;
+      color: #020611;
+      font-weight: 700;
+      box-shadow: inset 1px 1px 0px #fff, 2px 2px 0px rgba(0,0,0,0.5);
+    }
+    
+    .btn { 
+      width: 100%; 
+      background: linear-gradient(180deg, #ff9e00 0%, #ff6000 100%);
+      border: 3px solid var(--pixel-edge);
+      color: #020611; 
+      padding: 14px 8px; 
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.92rem; 
+      font-weight: bold;
+      cursor: pointer; 
+      box-shadow: inset 2px 2px 0px #ffe49e, inset -2px -2px 0px #b23a00, 3px 3px 0px #000;
+      letter-spacing: 0.5px;
+    }
+    .btn:active { 
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #000;
+    }
+    .btn-secondary { 
+      background: linear-gradient(180deg, #1b3a5c 0%, #0d223a 100%); 
+      color: var(--bubble-cyan);
+      box-shadow: inset 2px 2px 0px #2a5a8c, inset -2px -2px 0px #061322, 3px 3px 0px #000;
+      font-size: 0.76rem;
+      margin-top: 10px;
+    }
+    
+    .nav-bar { 
+      position: fixed; 
+      bottom: 0; 
+      left: 0; 
+      right: 0; 
+      background: #040813; 
+      border-top: 3px solid var(--pixel-edge); 
+      display: flex; 
+      justify-content: space-around; 
+      padding: 8px 0 max(8px, env(safe-area-inset-bottom)); 
+      z-index: 40; 
+      box-shadow: 0 -4px 0px rgba(0,0,0,0.5);
+    }
+    .nav-item { 
+      font-size: 0.74rem; 
+      color: #627d98; 
+      text-align: center; 
+      cursor: pointer; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 4px; 
+      flex-grow: 1;
+      padding: 4px 0;
+    }
+    .nav-icon { font-size: 1.3rem; }
+    .nav-item.active { 
+      color: var(--sand-gold); 
+      text-shadow: 1px 1px 0px #000;
+    }
+    
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+    .stat-card { 
+      background: #071224; 
+      border: 2px solid #1e3a5f; 
+      padding: 12px 8px; 
+      text-align: center; 
+    }
+    .stat-card .num { font-size: 1.55rem; color: var(--sun-aqua); margin-bottom: 4px; font-weight: bold; }
+    .stat-card .lbl { font-size: 0.72rem; color: var(--text-dim); }
+    
+    /* Dedicated Chart Dimensions with Bottom Padding for Full Labels */
+    .chart-container {
+      position: relative;
+      height: 275px;
+      width: 100%;
+      margin-bottom: 24px;
+      background: #071224;
+      border: 2px solid #1e3a5f;
+      padding: 10px 10px 18px 10px;
+    }
+    .chart-title {
+      font-size: 0.76rem;
+      color: var(--bubble-cyan);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .entry-item { 
+      background: #071224; 
+      border: 2px solid #1e3a5f; 
+      padding: 14px 12px; 
+      margin-bottom: 12px; 
+      box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+    }
+    .entry-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .entry-date { font-size: 0.82rem; color: var(--sand-gold); font-weight: bold; }
+    .entry-badge { 
+      padding: 4px 9px; 
+      font-size: 0.72rem; 
+      color: #020611;
+      font-weight: bold;
+    }
+    .entry-badge[data-lvl="1"] { background: #e0f2fe; }
+    .entry-badge[data-lvl="2"] { background: #90e0ef; }
+    .entry-badge[data-lvl="3"] { background: #48cae4; }
+    .entry-badge[data-lvl="4"] { background: #0077b6; color: #fff; }
+    .entry-badge[data-lvl="5"] { background: #ff5d8f; color: #fff; }
+    
+    .entry-details { 
+      font-family: 'VT323', monospace; 
+      font-size: 1.35rem; 
+      color: var(--sun-aqua); 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 12px; 
+    }
+    .entry-comment { 
+      font-family: 'VT323', monospace;
+      font-size: 1.38rem; 
+      color: #f1f5f9; 
+      margin-top: 8px; 
+      padding-left: 10px; 
+      border-left: 3px solid var(--clownfish-orange); 
+      line-height: 1.3; 
+    }
+    
+    .delete-btn { 
+      color: var(--coral-pink); 
+      background: none; 
+      border: none; 
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.7rem; 
+      cursor: pointer; 
+      float: right; 
+      margin-top: 8px; 
+      font-weight: bold;
+    }
+    
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <span class="mermaid-sprite">🧜‍♀️</span>
+      <div>
+        <h1>CRYLANDER</h1>
+        <div class="subtitle">Deep Sea Pixel Sanctuary 🫧</div>
+      </div>
+      <span class="mermaid-sprite" style="animation-delay: 1.5s;">🐠</span>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- TAB 1: LOG -->
+    <section id="tab-log">
+      <div class="retro-card">
+        <div class="retro-header-bar">
+          <span>LOG A CRY</span>
+          <span>🫧 🧜‍♀️</span>
+        </div>
+        <form id="cry-form">
+          <div class="row">
+            <div>
+              <label>DATE</label>
+              <input type="date" id="date" required>
+            </div>
+            <div>
+              <label>TIME</label>
+              <input type="time" id="time" required>
+            </div>
+          </div>
+
+          <label>TEAR INTENSITY (1–5)</label>
+          <div class="legend-scale" id="scale-container">
+            <div class="legend-row active" data-val="1">
+              <div class="legend-num">1</div>
+              <div class="legend-text">Welling up</div>
+            </div>
+            <div class="legend-row" data-val="2">
+              <div class="legend-num">2</div>
+              <div class="legend-text">Tears rolling down like a movie star</div>
+            </div>
+            <div class="legend-row" data-val="3">
+              <div class="legend-num">3</div>
+              <div class="legend-text">Slowly losing it</div>
+            </div>
+            <div class="legend-row" data-val="4">
+              <div class="legend-num">4</div>
+              <div class="legend-text">A mess, voice shaking in her boots</div>
+            </div>
+            <div class="legend-row" data-val="5">
+              <div class="legend-num">5</div>
+              <div class="legend-text">Screaming, crying, throwing up</div>
+            </div>
+          </div>
+          <input type="hidden" id="intensity" value="1">
+
+          <label>EMOTION TYPE</label>
+          <div class="chip-grid" id="type-container">
+            <div class="chip active" onclick="selectChip('type', 'Sad', this)">😢 Sad</div>
+            <div class="chip" onclick="selectChip('type', 'Angry', this)">😡 Angry</div>
+            <div class="chip" onclick="selectChip('type', 'Happy', this)">✨ Happy</div>
+            <div class="chip" onclick="selectChip('type', 'Anxious', this)">🌀 Anxious</div>
+            <div class="chip" onclick="selectChip('type', 'Overwhelmed', this)">🤯 Overwhelmed</div>
+            <div class="chip" onclick="selectChip('type', 'Other', this)">💬 Other</div>
+          </div>
+          <input type="hidden" id="type" value="Sad">
+
+          <label>LOCATION</label>
+          <div class="chip-grid" id="location-container">
+            <div class="chip active" onclick="selectChip('location', 'In bed', this)">🛏️ In bed</div>
+            <div class="chip" onclick="selectChip('location', 'On the couch', this)">🛋️ On couch</div>
+            <div class="chip" onclick="selectChip('location', 'Car', this)">🚗 Car</div>
+            <div class="chip" onclick="selectChip('location', 'Work', this)">💼 Work</div>
+            <div class="chip" onclick="selectChip('location', 'At home', this)">🏠 Home</div>
+            <div class="chip" onclick="selectChip('location', 'Outside', this)">🌲 Outside</div>
+            <div class="chip" onclick="selectChip('location', 'Other', this)">📍 Other</div>
+          </div>
+          <input type="hidden" id="location" value="In bed">
+
+          <label>REASON</label>
+          <div class="chip-grid" id="reason-container">
+            <div class="chip active" onclick="selectChip('reason', 'Depressed/Life', this)">🌊 Depressed/Life</div>
+            <div class="chip" onclick="selectChip('reason', 'Christopher', this)">❤️‍🩹 Christopher</div>
+            <div class="chip" onclick="selectChip('reason', 'Family', this)">👪 Family</div>
+            <div class="chip" onclick="selectChip('reason', 'Friends', this)">🤝 Friends</div>
+            <div class="chip" onclick="selectChip('reason', 'Movie', this)">🎬 Movie</div>
+            <div class="chip" onclick="selectChip('reason', 'TV Show', this)">📺 TV Show</div>
+            <div class="chip" onclick="selectChip('reason', 'TikTok', this)">📱 TikTok</div>
+            <div class="chip" onclick="selectChip('reason', 'YouTube', this)">▶️ YouTube</div>
+            <div class="chip" onclick="selectChip('reason', 'Crying Spell', this)">🌧️ Spell</div>
+            <div class="chip" onclick="selectChip('reason', 'Other', this)">🏷️ Other</div>
+          </div>
+          <input type="hidden" id="reason" value="Depressed/Life">
+
+          <label>MEMO / JOURNAL</label>
+          <textarea id="comments" rows="3" placeholder="What's happening beneath the waves?..."></textarea>
+
+          <button type="submit" class="btn" id="submit-btn">🫧 LOG TO SEABED</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- TAB 2: TRENDS & CHARTS -->
+    <section id="tab-stats" class="hidden">
+      <div class="retro-card">
+        <div class="retro-header-bar">
+          <span>QUERY FILTER</span>
+        </div>
+        <div class="row">
+          <div>
+            <label>YEAR</label>
+            <select id="filter-year" onchange="applyFilters()">
+              <option value="ALL">All-Time</option>
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+          <div>
+            <label>INTENSITY</label>
+            <select id="filter-intensity" onchange="applyFilters()">
+              <option value="ALL">All Lvl</option>
+              <option value="1">Lvl 1</option>
+              <option value="2">Lvl 2</option>
+              <option value="3">Lvl 3</option>
+              <option value="4">Lvl 4</option>
+              <option value="5">Lvl 5</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label>LOCATION</label>
+            <select id="filter-location" onchange="applyFilters()">
+              <option value="ALL">All Locations</option>
+              <option value="In bed">In bed</option>
+              <option value="On the couch">On couch</option>
+              <option value="Car">Car</option>
+              <option value="Work">Work</option>
+              <option value="At home">Home</option>
+              <option value="Outside">Outside</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label>REASON</label>
+            <select id="filter-reason" onchange="applyFilters()">
+              <option value="ALL">All Reasons</option>
+              <option value="Depressed/Life">Depressed/Life</option>
+              <option value="Christopher">Christopher</option>
+              <option value="Family">Family</option>
+              <option value="Friends">Friends</option>
+              <option value="Movie">Movie</option>
+              <option value="TV Show">TV Show</option>
+              <option value="TikTok">TikTok</option>
+              <option value="YouTube">YouTube</option>
+              <option value="Crying Spell">Crying Spell</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-secondary" onclick="resetFilters()">RESET FILTER</button>
+      </div>
+
+      <div class="retro-card">
+        <div class="retro-header-bar">
+          <span>ANALYTICS HUD</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="num" id="stat-total">0</div>
+            <div class="lbl">TOTAL LOGS</div>
+          </div>
+          <div class="stat-card">
+            <div class="num" id="stat-month">0</div>
+            <div class="lbl">THIS MONTH</div>
+          </div>
+          <div class="stat-card">
+            <div class="num" id="stat-avg-intensity">0.0</div>
+            <div class="lbl">AVG INTENSITY</div>
+          </div>
+          <div class="stat-card">
+            <div class="num" id="stat-top-reason">-</div>
+            <div class="lbl">TOP REASON</div>
+          </div>
+        </div>
+
+        <!-- Chart 1: Time Curve -->
+        <div class="chart-container">
+          <div class="chart-title">TIME OF DAY (24-HOUR)</div>
+          <canvas id="timeChart"></canvas>
+        </div>
+
+        <!-- Chart 2: Day Frequency -->
+        <div class="chart-container">
+          <div class="chart-title">DAY OF THE WEEK FREQUENCY</div>
+          <canvas id="dayChart"></canvas>
+        </div>
+
+        <!-- Chart 3: Month Flow -->
+        <div class="chart-container">
+          <div class="chart-title">MONTHLY FLOW (JAN–DEC)</div>
+          <canvas id="monthChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: HISTORY -->
+    <section id="tab-history" class="hidden">
+      <div class="retro-card">
+        <div class="retro-header-bar">
+          <span>TEAR ARCHIVES</span>
+          <span id="hist-count-indicator">0 ENTRIES</span>
+        </div>
+        <div id="entries-list"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SYNC & GITHUB SETTINGS -->
+    <section id="tab-settings" class="hidden">
+      <div class="retro-card">
+        <div class="retro-header-bar">
+          <span>GOOGLE SHEET SYNC</span>
+        </div>
+        <p style="font-family:'VT323', monospace; font-size:1.35rem; color:var(--text-dim); margin-bottom:14px; line-height:1.35;">
+          Paste your Google Apps Script Webhook URL below to automatically append your logs directly into your Google Sheet:
+        </p>
+        <label>WEBHOOK EXEC URL</label>
+        <input type="url" id="sheet-webhook-url" placeholder="https://script.google.com/macros/s/.../exec">
+        <button class="btn" onclick="saveWebhookUrl()">SAVE WEBHOOK URL</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">EXPORT CSV BACKUP</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="nav-bar">
+    <div class="nav-item active" onclick="switchTab('log')">
+      <span class="nav-icon">✏️</span>
+      <span>LOG</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('stats')">
+      <span class="nav-icon">📊</span>
+      <span>TRENDS</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('history')">
+      <span class="nav-icon">📜</span>
+      <span>ARCHIVE</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('settings')">
+      <span class="nav-icon">⚙️</span>
+      <span>SYNC</span>
+    </div>
+  </nav>
+
+  <script>
+    // PRE-LOADED DATA
+    const fallbackSeedData = [
+      {"date": "2026-03-01", "day": "Sun", "time": "11:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Family", "comments": "Christopher's family"},
+      {"date": "2026-01-26", "day": "Mon", "time": "17:45", "intensity": 5, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": "Tired of this relationship"},
+      {"date": "2026-01-21", "day": "Wed", "time": "18:30", "intensity": 2, "type": "Happy", "location": "Other", "reason": "Movie", "comments": "Collective effervescence during Bohemian Rhapsody"},
+      {"date": "2026-01-18", "day": "Sun", "time": "19:30", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Christopher", "comments": "Therapy"},
+      {"date": "2026-01-16", "day": "Fri", "time": "12:05", "intensity": 2, "type": "Happy", "location": "In bed", "reason": "TikTok", "comments": "About the movie The Impossible"},
+      {"date": "2026-01-09", "day": "Fri", "time": "11:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Other", "comments": "State of this country"},
+      {"date": "2026-01-08", "day": "Thu", "time": "18:00", "intensity": 1, "type": "Happy", "location": "Other", "reason": "Friends", "comments": "Dinner with phoebe"},
+      {"date": "2026-01-03", "day": "Sat", "time": "12:00", "intensity": 2, "type": "Angry", "location": "At home", "reason": "Depressed/Life", "comments": "Journaling, overwhelmed"},
+      {"date": "2026-01-01", "day": "Thu", "time": "20:30", "intensity": 5, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "Therapy call"},
+      {"date": "2026-01-01", "day": "Thu", "time": "16:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "Stranger things ending"},
+      {"date": "2025-12-14", "day": "Sun", "time": "01:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Apology text, exhausted"},
+      {"date": "2025-12-13", "day": "Sat", "time": "17:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Spider Man 2, hard day"},
+      {"date": "2025-12-10", "day": "Wed", "time": "16:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "The Bear"},
+      {"date": "2025-12-08", "day": "Mon", "time": "23:00", "intensity": 4, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Crying before game"},
+      {"date": "2025-11-26", "day": "Wed", "time": "18:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "Therapy"},
+      {"date": "2025-09-25", "day": "Thu", "time": "23:00", "intensity": 5, "type": "Sad", "location": "In bed", "reason": "Christopher", "comments": "Hard night"},
+      {"date": "2024-05-04", "day": "Sat", "time": "14:30", "intensity": 3, "type": "Happy", "location": "Other", "reason": "Christopher", "comments": "ENGAGED"},
+      {"date": "2024-04-23", "day": "Tue", "time": "08:00", "intensity": 5, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "Exhausted fight"},
+      {"date": "2024-02-07", "day": "Wed", "time": "08:25", "intensity": 1, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Rough commute"},
+      {"date": "2023-12-23", "day": "Sat", "time": "23:05", "intensity": 4, "type": "Angry", "location": "In bed", "reason": "Family", "comments": "Family holiday stress"}
+    ];
+
+    let entries = JSON.parse(localStorage.getItem('crylendar_entries') || 'null');
+    if (!entries || entries.length < 15) {
+      fetch('crylendar_all_data.json')
+        .then(r => r.json())
+        .then(data => {
+          entries = data;
+          localStorage.setItem('crylendar_entries', JSON.stringify(entries));
+          applyFilters();
+        })
+        .catch(() => {
+          entries = fallbackSeedData;
+          localStorage.setItem('crylendar_entries', JSON.stringify(entries));
+          applyFilters();
+        });
+    }
+
+    let chartTime = null;
+    let chartDay = null;
+    let chartMonth = null;
+
+    function setDefaultDateTime() {
+      const now = new Date();
+      document.getElementById('date').value = now.toISOString().split('T')[0];
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('time').value = `${hours}:${mins}`;
+    }
+
+    document.querySelectorAll('.legend-row').forEach(row => {
+      row.addEventListener('click', () => {
+        document.querySelectorAll('.legend-row').forEach(r => r.classList.remove('active'));
+        row.classList.add('active');
+        document.getElementById('intensity').value = row.dataset.val;
+      });
+    });
+
+    function selectChip(field, val, element) {
+      const container = element.parentElement;
+      container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      element.classList.add('active');
+      document.getElementById(field).value = val;
+    }
+
+    function saveWebhookUrl() {
+      const url = document.getElementById('sheet-webhook-url').value.trim();
+      localStorage.setItem('crylendar_webhook_url', url);
+      alert('Webhook URL saved!');
+    }
+
+    document.getElementById('cry-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.textContent = 'SAVING...';
+      submitBtn.disabled = true;
+
+      const dateVal = document.getElementById('date').value;
+      const d = new Date(dateVal + 'T00:00:00');
+      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const day = dayNames[d.getDay()];
+
+      const newEntry = {
+        id: Date.now(),
+        date: dateVal,
+        day: day,
+        time: document.getElementById('time').value,
+        intensity: parseInt(document.getElementById('intensity').value, 10),
+        type: document.getElementById('type').value,
+        location: document.getElementById('location').value,
+        reason: document.getElementById('reason').value,
+        comments: document.getElementById('comments').value.trim()
+      };
+
+      entries.unshift(newEntry);
+      localStorage.setItem('crylendar_entries', JSON.stringify(entries));
+
+      const webhookUrl = localStorage.getItem('crylendar_webhook_url');
+      if (webhookUrl) {
+        try {
+          await fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newEntry)
+          });
+        } catch (err) {
+          console.warn('Webhook post failed:', err);
+        }
+      }
+
+      submitBtn.textContent = '🫧 LOG TO SEABED';
+      submitBtn.disabled = false;
+      document.getElementById('comments').value = '';
+      setDefaultDateTime();
+      switchTab('history');
+    });
+
+    function switchTab(tabId) {
+      ['log', 'stats', 'history', 'settings'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabId);
+      });
+      document.querySelectorAll('.nav-item').forEach((item, idx) => {
+        item.classList.toggle('active', ['log', 'stats', 'history', 'settings'][idx] === tabId);
+      });
+
+      if (tabId === 'history') renderHistory();
+      if (tabId === 'stats') renderStats();
+      if (tabId === 'settings') {
+        document.getElementById('sheet-webhook-url').value = localStorage.getItem('crylendar_webhook_url') || '';
+      }
+    }
+
+    function getFilteredEntries() {
+      const year = document.getElementById('filter-year').value;
+      const intensity = document.getElementById('filter-intensity').value;
+      const location = document.getElementById('filter-location').value;
+      const reason = document.getElementById('filter-reason').value;
+
+      return (entries || []).filter(e => {
+        const matchesYear = (year === 'ALL') || (e.date && e.date.startsWith(year));
+        const matchesIntensity = (intensity === 'ALL') || (String(e.intensity) === intensity);
+        const matchesLocation = (location === 'ALL') || (e.location === location);
+        const matchesReason = (reason === 'ALL') || (e.reason === reason);
+        return matchesYear && matchesIntensity && matchesLocation && matchesReason;
+      });
+    }
+
+    function applyFilters() {
+      renderStats();
+      renderHistory();
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-year').value = 'ALL';
+      document.getElementById('filter-intensity').value = 'ALL';
+      document.getElementById('filter-location').value = 'ALL';
+      document.getElementById('filter-reason').value = 'ALL';
+      applyFilters();
+    }
+
+    function renderHistory() {
+      const filtered = getFilteredEntries();
+      const container = document.getElementById('entries-list');
+      document.getElementById('hist-count-indicator').textContent = `${filtered.length} LOGS`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="font-family:\'VT323\', monospace; font-size:1.4rem; color:var(--text-dim); text-align:center; padding:18px;">NO LOGS IN CURRENT TIDE.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="entry-item">
+          <div class="entry-header">
+            <span class="entry-date">${item.date} (${item.day}) ${item.time}</span>
+            <span class="entry-badge" data-lvl="${item.intensity}">LVL ${item.intensity}</span>
+          </div>
+          <div class="entry-details">
+            <span>📍 ${item.location}</span>
+            <span>🏷️ ${item.reason}</span>
+            <span>🧠 ${item.type}</span>
+          </div>
+          ${item.comments ? `<div class="entry-comment">“${item.comments}”</div>` : ''}
+          <button class="delete-btn" onclick="deleteEntry(${item.id})">[DELETE]</button>
+          <div style="clear:both;"></div>
+        </div>
+      `).join('');
+    }
+
+    function deleteEntry(id) {
+      if (confirm('Delete this entry?')) {
+        entries = entries.filter(e => e.id !== id);
+        localStorage.setItem('crylendar_entries', JSON.stringify(entries));
+        applyFilters();
+      }
+    }
+
+    function updateCharts(filtered) {
+      // 1. Time Chart (24h)
+      const hourlyCounts = Array(24).fill(0);
+      filtered.forEach(e => {
+        if (!e.time) return;
+        let hour = parseInt(e.time.split(':')[0], 10);
+        if (!isNaN(hour) && hour >= 0 && hour < 24) hourlyCounts[hour]++;
+      });
+      const hourLabels = ["12a","1a","2a","3a","4a","5a","6a","7a","8a","9a","10a","11a","12p","1p","2p","3p","4p","5p","6p","7p","8p","9p","10p","11p"];
+
+      if (chartTime) chartTime.destroy();
+      chartTime = new Chart(document.getElementById('timeChart'), {
+        type: 'line',
+        data: {
+          labels: hourLabels,
+          datasets: [{
+            data: hourlyCounts,
+            borderColor: '#48cae4',
+            backgroundColor: 'rgba(72, 202, 228, 0.25)',
+            borderWidth: 2,
+            tension: 0.2,
+            fill: true,
+            pointRadius: 2.5,
+            pointBackgroundColor: '#ffe49e'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: { bottom: 12, top: 4, left: 4, right: 6 }
+          },
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { 
+              grid: { color: 'rgba(255,255,255,0.08)' },
+              ticks: { 
+                color: '#f0fdf4',
+                font: { family: "'VT323', monospace", size: 15, weight: 'bold' },
+                maxTicksLimit: 12,
+                padding: 6
+              }
+            },
+            y: { 
+              beginAtZero: true, 
+              grid: { color: 'rgba(255,255,255,0.08)' },
+              ticks: { 
+                color: '#f0fdf4',
+                font: { family: "'VT323', monospace", size: 14 },
+                stepSize: 2 
+              }
+            }
+          }
+        }
+      });
+
+      // 2. Day Chart (Mon-Sun)
+      const dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const dayCounts = { 'Mon': 0, 'Tue': 0, 'Wed': 0, 'Thu': 0, 'Fri': 0, 'Sat': 0, 'Sun': 0 };
+      filtered.forEach(e => { if (dayCounts[e.day] !== undefined) dayCounts[e.day]++; });
+
+      if (chartDay) chartDay.destroy();
+      chartDay = new Chart(document.getElementById('dayChart'), {
+        type: 'bar',
+        data: {
+          labels: dayOrder,
+          datasets: [{ 
+            data: dayOrder.map(d => dayCounts[d]), 
+            backgroundColor: '#0077b6',
+            borderColor: '#90e0ef',
+            borderWidth: 1.5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: { bottom: 12, top: 4, left: 4, right: 6 }
+          },
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { 
+              grid: { display: false },
+              ticks: { 
+                color: '#f0fdf4',
+                font: { family: "'VT323', monospace", size: 18, weight: 'bold' },
+                autoSkip: false,
+                padding: 6
+              }
+            },
+            y: { 
+              beginAtZero: true, 
+              grid: { color: 'rgba(255,255,255,0.08)' },
+              ticks: { 
+                color: '#f0fdf4',
+                font: { family: "'VT323', monospace", size: 14 }
+              }
+            }
+          }
+        }
+      });
+
+      // 3. Month Chart (Jan-Dec)
+      const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      const monthCounts = Array(12).fill(0);
+      filtered.forEach(e => {
+        if (!e.date) return;
+        const m = parseInt(e.date.split('-')[1], 10);
+        if (!isNaN(m) && m >= 1 && m <= 12) monthCounts[m - 1]++;
+      });
+
+      if (chartMonth) chartMonth.destroy();
+      chartMonth = new Chart(document.getElementById('monthChart'), {
+        type: 'bar',
+        data: {
+          labels: monthNames,
+          datasets: [{ 
+            data: monthCounts, 
+            backgroundColor: '#ff7b00',
+            borderColor: '#ffe49e',
+            borderWidth: 1.5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: { bottom: 12, top: 4, left: 4, right: 6 }
+          },
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { 
+              grid: { display: false },
+              ticks: { 
+                color: '#f0fdf4',
+                font: { family: "'VT323', monospace", size: 16, weight: 'bold' },
+                autoSkip: false,
+                padding: 6
+              }
+            },
+            y: { 
+              beginAtZero: true, 
+              grid: { color: 'rgba(255,255,255,0.08)' },
+              ticks: { 
+                color: '#f0fdf4',
+                font: { family: "'VT323', monospace", size: 14 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderStats() {
+      const filtered = getFilteredEntries();
+      const total = filtered.length;
+      document.getElementById('stat-total').textContent = total;
+
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      const thisMonthCount = filtered.filter(e => e.date && e.date.startsWith(currentMonth)).length;
+      document.getElementById('stat-month').textContent = thisMonthCount;
+
+      updateCharts(filtered);
+
+      if (total === 0) {
+        document.getElementById('stat-avg-intensity').textContent = '0.0';
+        document.getElementById('stat-top-reason').textContent = '-';
+        return;
+      }
+
+      const avgIntensity = (filtered.reduce((acc, curr) => acc + curr.intensity, 0) / total).toFixed(1);
+      document.getElementById('stat-avg-intensity').textContent = avgIntensity;
+
+      const reasonCounts = filtered.reduce((acc, curr) => {
+        acc[curr.reason] = (acc[curr.reason] || 0) + 1;
+        return acc;
+      }, {});
+      const topReason = Object.keys(reasonCounts).reduce((a, b) => reasonCounts[a] > reasonCounts[b] ? a : b, '-');
+      document.getElementById('stat-top-reason').textContent = topReason.slice(0, 10);
+    }
+
+    function exportCSV() {
+      const filtered = getFilteredEntries();
+      const headers = ["Date", "Day", "Time", "Intensity", "Type", "Location", "Reason", "Comments"];
+      const rows = filtered.map(e => [e.date, e.day, e.time, e.intensity, `"${e.type}"`, `"${e.location}"`, `"${e.reason}"`, `"${(e.comments || '').replace(/"/g, '""')}"`]);
+      const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `crylendar_reef_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+    }
+
+    setDefaultDateTime();
+    applyFilters();
+  </script>
+</body>
+</html>
