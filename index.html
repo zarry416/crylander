@@ -11,7 +11,7 @@
   <style>
     :root {
       --deep-ocean: #060b18;
-      --card-bg: rgba(6, 14, 28, 0.85);
+      --card-bg: rgba(6, 14, 28, 0.88);
       --card-border: #1e3a5f;
       --sun-aqua: #48cae4;
       --bubble-cyan: #90e0ef;
@@ -31,6 +31,14 @@
       -webkit-tap-highlight-color: transparent; 
     }
     
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
     body { 
       background-color: var(--deep-ocean);
       /* Uses the pixel reef artwork directly embedded via Data URI */
@@ -44,17 +52,17 @@
       background-repeat: no-repeat;
       color: var(--text-main); 
       font-family: 'Silkscreen', monospace;
-      padding-bottom: calc(90px + env(safe-area-inset-bottom));
+      padding-bottom: calc(85px + env(safe-area-inset-bottom));
       min-height: 100vh;
     }
     
     header { 
-      padding: max(14px, env(safe-area-inset-top)) 16px 12px; 
+      padding: max(12px, env(safe-area-inset-top)) 12px 10px; 
       text-align: center;
       position: sticky; 
       top: 0; 
       z-index: 30;
-      background: rgba(4, 9, 20, 0.92);
+      background: rgba(4, 9, 20, 0.94);
       border-bottom: 4px solid var(--pixel-edge);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(8px);
@@ -64,11 +72,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .mermaid-sprite {
-      font-size: 2.3rem;
+      font-size: 2rem;
       display: inline-block;
       animation: mermaidFloat 3s ease-in-out infinite;
       filter: drop-shadow(2px 2px 0px #020611);
@@ -76,49 +84,53 @@
 
     @keyframes mermaidFloat {
       0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-7px) rotate(-5deg); }
+      50% { transform: translateY(-6px) rotate(-5deg); }
       100% { transform: translateY(0px) rotate(0deg); }
     }
     
     h1 { 
-      font-size: 1.25rem; 
+      font-size: 1.15rem; 
       color: var(--sand-gold);
       text-shadow: 2px 2px 0px var(--pixel-edge), -1px -1px 0px var(--clownfish-orange);
       letter-spacing: 0.5px;
     }
     .subtitle {
       font-family: 'VT323', monospace;
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       color: var(--bubble-cyan);
       margin-top: 2px;
       letter-spacing: 1px;
     }
     
+    /* iPhone Optimized Full-Width Container */
     .container { 
       width: 100%; 
-      max-width: 620px; 
+      max-width: 100%; 
       margin: 0 auto; 
-      padding: 14px 12px; 
+      padding: 10px 8px; 
+      box-sizing: border-box;
     }
 
     .retro-card {
       background: var(--card-bg);
       border: 3px solid var(--pixel-edge);
-      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.2), inset -2px -2px 0px rgba(0, 0, 0, 0.7), 4px 4px 0px rgba(0, 0, 0, 0.6);
-      margin-bottom: 18px;
-      padding: 16px 14px;
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.2), inset -2px -2px 0px rgba(0, 0, 0, 0.7), 3px 3px 0px rgba(0, 0, 0, 0.6);
+      margin-bottom: 14px;
+      padding: 14px 10px;
       backdrop-filter: blur(10px);
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .retro-header-bar {
       background: linear-gradient(90deg, #0077b6, #48cae4);
       color: #020611;
-      padding: 8px 10px;
-      font-size: 0.85rem;
+      padding: 7px 8px;
+      font-size: 0.78rem;
       font-weight: 700;
       border: 2px solid var(--pixel-edge);
       box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.7);
-      margin: -16px -14px 16px -14px;
+      margin: -14px -10px 14px -10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -126,7 +138,7 @@
     
     label { 
       display: block; 
-      font-size: 0.78rem; 
+      font-size: 0.74rem; 
       color: var(--sun-aqua); 
       margin-bottom: 6px; 
       text-transform: uppercase; 
@@ -139,11 +151,12 @@
       border: 2px solid #1e3a5f; 
       color: var(--text-main); 
       font-family: 'VT323', monospace;
-      font-size: 1.45rem;
-      padding: 9px 12px; 
-      margin-bottom: 16px; 
+      font-size: 1.35rem; /* ~21px prevents automatic iOS zoom */
+      padding: 8px 10px; 
+      margin-bottom: 14px; 
       outline: none;
       box-shadow: inset 2px 2px 0px #000;
+      box-sizing: border-box;
     }
     input:focus, select:focus, textarea:focus { 
       border-color: var(--sun-aqua); 
@@ -155,14 +168,22 @@
       color: var(--text-main);
     }
     
-    .row { display: flex; gap: 10px; }
-    .row > div { flex: 1; }
+    .row { 
+      display: flex; 
+      gap: 8px; 
+      width: 100%;
+    }
+    .row > div { 
+      flex: 1; 
+      min-width: 0;
+    }
     
     .legend-scale { 
       display: flex; 
       flex-direction: column; 
-      gap: 7px; 
-      margin-bottom: 16px; 
+      gap: 6px; 
+      margin-bottom: 14px; 
+      width: 100%;
     }
     .legend-row { 
       display: flex; 
@@ -171,24 +192,27 @@
       border: 2px solid #1e3a5f; 
       cursor: pointer; 
       box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1);
+      width: 100%;
+      box-sizing: border-box;
     }
     .legend-num { 
-      width: 44px; 
-      padding: 10px 0;
+      width: 38px; 
+      padding: 9px 0;
       text-align: center; 
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: bold;
       color: #020611;
       flex-shrink: 0;
       border-right: 2px solid var(--pixel-edge);
     }
     .legend-text { 
-      padding: 0 12px; 
+      padding: 0 10px; 
       font-family: 'VT323', monospace;
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       color: #f0fdf4;
       flex-grow: 1;
       line-height: 1.2;
+      word-break: break-word;
     }
     
     .legend-row[data-val="1"] .legend-num { background: #e0f2fe; }
@@ -206,18 +230,19 @@
     .chip-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
+      gap: 6px;
+      margin-bottom: 14px;
+      width: 100%;
+    }}
     .chip {
       background: #071224;
       border: 2px solid #1e3a5f;
-      padding: 8px 12px;
-      font-size: 0.74rem;
+      padding: 6px 9px;
+      font-size: 0.72rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       color: #cbd5e1;
       box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.1);
       line-height: 1.2;
@@ -235,13 +260,15 @@
       background: linear-gradient(180deg, #ff9e00 0%, #ff6000 100%);
       border: 3px solid var(--pixel-edge);
       color: #020611; 
-      padding: 14px 8px; 
+      padding: 13px 8px; 
       font-family: 'Silkscreen', monospace;
-      font-size: 0.92rem; 
+      font-size: 0.88rem; 
       font-weight: bold;
       cursor: pointer; 
       box-shadow: inset 2px 2px 0px #ffe49e, inset -2px -2px 0px #b23a00, 3px 3px 0px #000;
       letter-spacing: 0.5px;
+      box-sizing: border-box;
+      margin-top: 4px;
     }
     .btn:active { 
       transform: translate(2px, 2px);
@@ -251,8 +278,8 @@
       background: linear-gradient(180deg, #1b3a5c 0%, #0d223a 100%); 
       color: var(--bubble-cyan);
       box-shadow: inset 2px 2px 0px #2a5a8c, inset -2px -2px 0px #061322, 3px 3px 0px #000;
-      font-size: 0.76rem;
-      margin-top: 10px;
+      font-size: 0.74rem;
+      margin-top: 8px;
     }
     
     .nav-bar { 
@@ -264,50 +291,54 @@
       border-top: 3px solid var(--pixel-edge); 
       display: flex; 
       justify-content: space-around; 
-      padding: 8px 0 max(8px, env(safe-area-inset-bottom)); 
+      padding: 6px 0 max(6px, env(safe-area-inset-bottom)); 
       z-index: 40; 
       box-shadow: 0 -4px 0px rgba(0,0,0,0.5);
     }
     .nav-item { 
-      font-size: 0.74rem; 
+      font-size: 0.68rem; 
       color: #627d98; 
       text-align: center; 
       cursor: pointer; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
-      gap: 4px; 
+      gap: 3px; 
       flex-grow: 1;
-      padding: 4px 0;
+      padding: 3px 0;
     }
-    .nav-icon { font-size: 1.3rem; }
+    .nav-icon { font-size: 1.25rem; }
     .nav-item.active { 
       color: var(--sand-gold); 
       text-shadow: 1px 1px 0px #000;
     }
     
-    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; width: 100%; }
     .stat-card { 
       background: #071224; 
       border: 2px solid #1e3a5f; 
-      padding: 12px 8px; 
+      padding: 10px 6px; 
       text-align: center; 
+      box-sizing: border-box;
     }
-    .stat-card .num { font-size: 1.55rem; color: var(--sun-aqua); margin-bottom: 4px; font-weight: bold; }
-    .stat-card .lbl { font-size: 0.72rem; color: var(--text-dim); }
+    .stat-card .num { font-size: 1.45rem; color: var(--sun-aqua); margin-bottom: 3px; font-weight: bold; }
+    .stat-card .lbl { font-size: 0.68rem; color: var(--text-dim); }
     
-    /* Dedicated Chart Dimensions with Bottom Padding for Full Labels */
+    /* Dedicated Chart Containers Sized for iPhone */
     .chart-container {
       position: relative;
-      height: 275px;
+      height: 260px;
+      max-height: 260px;
       width: 100%;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       background: #071224;
       border: 2px solid #1e3a5f;
-      padding: 10px 10px 18px 10px;
+      padding: 8px 6px 14px 6px;
+      box-sizing: border-box;
+      overflow: hidden;
     }
     .chart-title {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       color: var(--bubble-cyan);
       margin-bottom: 6px;
       text-align: center;
@@ -316,15 +347,17 @@
     .entry-item { 
       background: #071224; 
       border: 2px solid #1e3a5f; 
-      padding: 14px 12px; 
-      margin-bottom: 12px; 
+      padding: 12px 10px; 
+      margin-bottom: 10px; 
       box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+      width: 100%;
+      box-sizing: border-box;
     }
     .entry-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
-    .entry-date { font-size: 0.82rem; color: var(--sand-gold); font-weight: bold; }
+    .entry-date { font-size: 0.78rem; color: var(--sand-gold); font-weight: bold; }
     .entry-badge { 
-      padding: 4px 9px; 
-      font-size: 0.72rem; 
+      padding: 3px 8px; 
+      font-size: 0.68rem; 
       color: #020611;
       font-weight: bold;
     }
@@ -336,20 +369,21 @@
     
     .entry-details { 
       font-family: 'VT323', monospace; 
-      font-size: 1.35rem; 
+      font-size: 1.3rem; 
       color: var(--sun-aqua); 
       display: flex; 
       flex-wrap: wrap; 
-      gap: 12px; 
+      gap: 10px; 
     }
     .entry-comment { 
       font-family: 'VT323', monospace;
-      font-size: 1.38rem; 
+      font-size: 1.35rem; 
       color: #f1f5f9; 
-      margin-top: 8px; 
-      padding-left: 10px; 
+      margin-top: 6px; 
+      padding-left: 8px; 
       border-left: 3px solid var(--clownfish-orange); 
       line-height: 1.3; 
+      word-break: break-word;
     }
     
     .delete-btn { 
@@ -357,10 +391,10 @@
       background: none; 
       border: none; 
       font-family: 'Silkscreen', monospace;
-      font-size: 0.7rem; 
+      font-size: 0.68rem; 
       cursor: pointer; 
       float: right; 
-      margin-top: 8px; 
+      margin-top: 6px; 
       font-weight: bold;
     }
     
@@ -593,15 +627,27 @@
     <section id="tab-settings" class="hidden">
       <div class="retro-card">
         <div class="retro-header-bar">
-          <span>GOOGLE SHEET SYNC</span>
+          <span>IMPORT / EXPORT DATA</span>
         </div>
-        <p style="font-family:'VT323', monospace; font-size:1.35rem; color:var(--text-dim); margin-bottom:14px; line-height:1.35;">
+        <p style="font-family:'VT323', monospace; font-size:1.35rem; color:var(--text-dim); margin-bottom:12px; line-height:1.35;">
+          Select any CSV downloaded from your Google Sheet (e.g. Master tab or 2026 tab) to import all rows into your app:
+        </p>
+        <input type="file" id="csv-file-input" accept=".csv" style="display: none;" onchange="handleCSVImport(event)">
+        <button class="btn" onclick="document.getElementById('csv-file-input').click()">📥 IMPORT CSV FROM SHEETS</button>
+        <button class="btn btn-secondary" onclick="reloadEmbeddedMaster()">🔄 RESTORE PRE-LOADED DATA (210 LOGS)</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">📤 EXPORT CSV BACKUP</button>
+      </div>
+
+      <div class="retro-card">
+        <div class="retro-header-bar">
+          <span>GOOGLE SHEET LIVE SYNC</span>
+        </div>
+        <p style="font-family:'VT323', monospace; font-size:1.35rem; color:var(--text-dim); margin-bottom:12px; line-height:1.35;">
           Paste your Google Apps Script Webhook URL below to automatically append your logs directly into your Google Sheet:
         </p>
         <label>WEBHOOK EXEC URL</label>
         <input type="url" id="sheet-webhook-url" placeholder="https://script.google.com/macros/s/.../exec">
         <button class="btn" onclick="saveWebhookUrl()">SAVE WEBHOOK URL</button>
-        <button class="btn btn-secondary" onclick="exportCSV()">EXPORT CSV BACKUP</button>
       </div>
     </section>
 
@@ -628,44 +674,13 @@
   </nav>
 
   <script>
-    // PRE-LOADED DATA
-    const fallbackSeedData = [
-      {"date": "2026-03-01", "day": "Sun", "time": "11:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Family", "comments": "Christopher's family"},
-      {"date": "2026-01-26", "day": "Mon", "time": "17:45", "intensity": 5, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": "Tired of this relationship"},
-      {"date": "2026-01-21", "day": "Wed", "time": "18:30", "intensity": 2, "type": "Happy", "location": "Other", "reason": "Movie", "comments": "Collective effervescence during Bohemian Rhapsody"},
-      {"date": "2026-01-18", "day": "Sun", "time": "19:30", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Christopher", "comments": "Therapy"},
-      {"date": "2026-01-16", "day": "Fri", "time": "12:05", "intensity": 2, "type": "Happy", "location": "In bed", "reason": "TikTok", "comments": "About the movie The Impossible"},
-      {"date": "2026-01-09", "day": "Fri", "time": "11:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Other", "comments": "State of this country"},
-      {"date": "2026-01-08", "day": "Thu", "time": "18:00", "intensity": 1, "type": "Happy", "location": "Other", "reason": "Friends", "comments": "Dinner with phoebe"},
-      {"date": "2026-01-03", "day": "Sat", "time": "12:00", "intensity": 2, "type": "Angry", "location": "At home", "reason": "Depressed/Life", "comments": "Journaling, overwhelmed"},
-      {"date": "2026-01-01", "day": "Thu", "time": "20:30", "intensity": 5, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "Therapy call"},
-      {"date": "2026-01-01", "day": "Thu", "time": "16:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "Stranger things ending"},
-      {"date": "2025-12-14", "day": "Sun", "time": "01:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Apology text, exhausted"},
-      {"date": "2025-12-13", "day": "Sat", "time": "17:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Spider Man 2, hard day"},
-      {"date": "2025-12-10", "day": "Wed", "time": "16:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "The Bear"},
-      {"date": "2025-12-08", "day": "Mon", "time": "23:00", "intensity": 4, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Crying before game"},
-      {"date": "2025-11-26", "day": "Wed", "time": "18:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "Therapy"},
-      {"date": "2025-09-25", "day": "Thu", "time": "23:00", "intensity": 5, "type": "Sad", "location": "In bed", "reason": "Christopher", "comments": "Hard night"},
-      {"date": "2024-05-04", "day": "Sat", "time": "14:30", "intensity": 3, "type": "Happy", "location": "Other", "reason": "Christopher", "comments": "ENGAGED"},
-      {"date": "2024-04-23", "day": "Tue", "time": "08:00", "intensity": 5, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "Exhausted fight"},
-      {"date": "2024-02-07", "day": "Wed", "time": "08:25", "intensity": 1, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Rough commute"},
-      {"date": "2023-12-23", "day": "Sat", "time": "23:05", "intensity": 4, "type": "Angry", "location": "In bed", "reason": "Family", "comments": "Family holiday stress"}
-    ];
+    // PRE-BAKED COMPLETE MASTER DATASET (ALL 210 ENTRIES)
+    const masterArchiveData = [{"date": "2026-01-01", "day": "Thu", "time": "20:30", "intensity": 5, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "Therapy call, just talking about the same things over and over again"}, {"date": "2026-01-01", "day": "Thu", "time": "16:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "Me and max crying about the stranger things ending"}, {"date": "2026-01-03", "day": "Sat", "time": "12:00", "intensity": 2, "type": "Angry", "location": "At home", "reason": "Depressed/Life", "comments": "Read the journal. I’m fucking over everything. Why is everything just happening to me. When is it gonna stop and start being good again? Idk how much more I can handle"}, {"date": "2026-01-09", "day": "Fri", "time": "11:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Other", "comments": "TikTok’s of ICE and the state of this country"}, {"date": "2026-01-08", "day": "Thu", "time": "18:00", "intensity": 1, "type": "Happy", "location": "Other", "reason": "Friends", "comments": "At dinner with phoebe and she was saying all kinds of nice things about me and how she wants me to be happy cuz I deserve it"}, {"date": "2026-01-16", "day": "Fri", "time": "12:05", "intensity": 2, "type": "Happy", "location": "In bed", "reason": "TikTok", "comments": "About the movie The Impossible when they all get reunited"}, {"date": "2026-01-21", "day": "Wed", "time": "18:30", "intensity": 2, "type": "Happy", "location": "Other", "reason": "Movie", "comments": "Collective effervescence during Bohemian Rhapsody, and also when he tells his mates he has AIDS"}, {"date": "2026-01-18", "day": "Sun", "time": "19:30", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Christopher", "comments": "Therapy"}, {"date": "2026-01-26", "day": "Mon", "time": "17:45", "intensity": 5, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": "I’m tired of this relationship"}, {"date": "2026-03-01", "day": "Sun", "time": "11:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Family", "comments": "Christopher’s family"}, {"date": "2023-12-23", "day": "Sat", "time": "23:05", "intensity": 4, "type": "Angry", "location": "In bed", "reason": "Family", "comments": "Cried about family and life (about Macky and daddy)"}, {"date": "2023-12-24", "day": "Sun", "time": "19:15", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Family", "comments": "Stressed about xmas with fam (Mack and Gil)"}, {"date": "2023-12-25", "day": "Mon", "time": "17:08", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Family", "comments": "Very anxious, body been shaking for days, on vacay"}, {"date": "2023-12-26", "day": "Tue", "time": "19:05", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Family", "comments": "Gil wanted to return my gift, still anxious, on vacay"}, {"date": "2023-12-27", "day": "Wed", "time": "19:15", "intensity": 2, "type": "Sad", "location": "Other", "reason": "Family", "comments": "still anxious, Skylar started crying about her dad, on vacay"}, {"date": "2024-01-05", "day": "Fri", "time": "11:02", "intensity": 1, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "I feel the beginnings of depression, wanted to cry when Chelsea asked to practice fibroscans"}, {"date": "2024-01-05", "day": "Fri", "time": "16:56", "intensity": 2, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "no music in the car"}, {"date": "2024-01-05", "day": "Fri", "time": "23:05", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "Chris didn't want to read Tender is the Flesh, caused a spiral of loneliness"}, {"date": "2024-01-07", "day": "Sun", "time": "10:18", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "just fights with Chrissy in the midst of wanting to kms"}, {"date": "2024-01-08", "day": "Mon", "time": "13:20", "intensity": 1, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "Regina posting her friend on IG"}, {"date": "2024-01-09", "day": "Tue", "time": "12:48", "intensity": 2, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "panic attack driving to work, hard to breathe, tough day"}, {"date": "2024-01-09", "day": "Tue", "time": "18:34", "intensity": 2, "type": "Sad", "location": "In bed", "reason": "YouTube", "comments": ""}, {"date": "2024-01-10", "day": "Wed", "time": "21:14", "intensity": 2, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": ""}, {"date": "2024-01-11", "day": "Thu", "time": "14:51", "intensity": 1, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "Tita Ann said sorry Gil was like this with us after I told her he didn't want my Xmas gift"}, {"date": "2024-01-12", "day": "Fri", "time": "13:30", "intensity": 1, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "money"}, {"date": "2024-01-14", "day": "Sun", "time": "13:56", "intensity": 5, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": "just opening up about how lonely i feel in a relationship"}, {"date": "2024-01-14", "day": "Sun", "time": "20:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "Watched Society of Snow"}, {"date": "2024-01-17", "day": "Wed", "time": "09:03", "intensity": 3, "type": "Angry", "location": "Car", "reason": "Christopher", "comments": "money"}, {"date": "2024-01-17", "day": "Wed", "time": "16:47", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "I miss Jane already lol, life sucks, I wanna quit volleyball"}, {"date": "2024-01-18", "day": "Thu", "time": "13:56", "intensity": 2, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "Quit volleyball officially, told Regina I wasn't gonna go to her venue hunting thing, all she said was ok after I told her I'm dealing with things"}, {"date": "2024-01-18", "day": "Thu", "time": "16:37", "intensity": 2, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Was shaking all day"}, {"date": "2024-01-18", "day": "Thu", "time": "21:15", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "SI"}, {"date": "2024-01-19", "day": "Fri", "time": "02:02", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "SI"}, {"date": "2024-01-19", "day": "Fri", "time": "14:11", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TikTok", "comments": ""}, {"date": "2024-01-20", "day": "Sat", "time": "15:00", "intensity": 3, "type": "Happy", "location": "On the couch", "reason": "TV Show", "comments": "The Bear, season 2, episode 7, Forks"}, {"date": "2024-01-25", "day": "Thu", "time": "12:12", "intensity": 3, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": ""}, {"date": "2024-01-26", "day": "Fri", "time": "17:31", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "Watched The Trapped 13"}, {"date": "2024-01-28", "day": "Sun", "time": "12:12", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "The Bear, season 2, episode 7, Forks"}, {"date": "2024-01-29", "day": "Mon", "time": "18:50", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Depressed/Life", "comments": "Texting Helen, feeling lonely"}, {"date": "2024-01-30", "day": "Tue", "time": "03:13", "intensity": 2, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "Lonely"}, {"date": "2024-01-31", "day": "Wed", "time": "08:00", "intensity": 1, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "First time seeing Ron after his son passed away"}, {"date": "2024-02-03", "day": "Sat", "time": "07:30", "intensity": 2, "type": "Sad", "location": "In bed", "reason": "Friends", "comments": "Cried about Regina. Should I send her a text of how I feel?"}, {"date": "2024-02-05", "day": "Mon", "time": "17:45", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Christopher", "comments": "Therapy with Christopher, cried about how I've been feeling lonely"}, {"date": "2024-02-06", "day": "Tue", "time": "17:20", "intensity": 1, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Telehealth with Dr. Ha about the depression the past month"}, {"date": "2024-02-06", "day": "Tue", "time": "18:53", "intensity": 1, "type": "Happy", "location": "On the couch", "reason": "TV Show", "comments": ""}, {"date": "2024-02-07", "day": "Wed", "time": "08:25", "intensity": 1, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Listening to Shel Silverstein video > \"unalive\" > what people would do if I were to kms, SI"}, {"date": "2024-02-07", "day": "Wed", "time": "09:15", "intensity": 1, "type": "Sad", "location": "Work", "reason": "Family", "comments": "Talking to Chelsea about money and family"}, {"date": "2024-02-07", "day": "Wed", "time": "17:00", "intensity": 1, "type": "Happy", "location": "At home", "reason": "TikTok", "comments": "Hopecore"}, {"date": "2024-02-07", "day": "Wed", "time": "22:00", "intensity": 3, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "Was too lazy to fix the toilet paper holder, fought about it, idgaf, he'll only truly fucking care if I fucking kms. That's when anyone will actually care anything remotely about me. Then told Macky I'm ready to kms lol"}, {"date": "2024-02-10", "day": "Sat", "time": "21:55", "intensity": 3, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": "If I kms, just know Christopher had something to do with it"}, {"date": "2024-02-12", "day": "Mon", "time": "17:45", "intensity": 3, "type": "Angry", "location": "On the couch", "reason": "Family", "comments": "Therapy talking about Max and how apparently I'm not doing enough to discipline him. She just wasn't getting it"}, {"date": "2024-02-13", "day": "Tue", "time": "16:20", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "NP Julie med management -> basically confirmed that this is not how normal people feel"}, {"date": "2024-02-13", "day": "Tue", "time": "17:30", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Family", "comments": "Arusha -> cried about how mommy and Gil reacted when I tried to kms, crying and heaving, like it was hard to get words out"}, {"date": "2024-02-15", "day": "Thu", "time": "10:30", "intensity": 2, "type": "Sad", "location": "Work", "reason": "Family", "comments": "Talking to Marc during my review about daddy and needing money"}, {"date": "2024-02-18", "day": "Sun", "time": "01:30", "intensity": 2, "type": "Happy", "location": "On the couch", "reason": "Family", "comments": "Playing monopoly with the kids -> max giving Ayden $19 of change instead of 9, insane offers for properties, at 3 am losing our minds and not being able to think, I survived pretty long without any houses and I could've probably stayed a little longer but I gave up and I would've lost in the end anyway but Ayden told me that a while back, he had a lot of monopolies and I was able to win by skipping all of it, Ayden won"}, {"date": "2024-02-22", "day": "Thu", "time": "19:00", "intensity": 1, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "The Florida Project, Moonee crying in the end"}, {"date": "2024-03-03", "day": "Sun", "time": "14:20", "intensity": 1, "type": "Sad", "location": "At home", "reason": "Movie", "comments": "Watching 13 hours with Chrissy. The Chief dying and then Jim turning around when they dropped the body. \ud83d\ude2d"}, {"date": "2024-03-10", "day": "Sun", "time": "22:00", "intensity": 1, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "Episode 8-10 Daisy Jones and the Six :("}, {"date": "2024-03-10", "day": "Sun", "time": "23:30", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Christopher", "comments": "Talking to Chris about his anxiety and how I've dealt with it and how he wants to be comforted"}, {"date": "2024-03-11", "day": "Mon", "time": "16:24", "intensity": 1, "type": "Sad", "location": "Car", "reason": "YouTube", "comments": "Watching Ariana's MV for we can't be friends"}, {"date": "2024-03-14", "day": "Thu", "time": "18:00", "intensity": 1, "type": "Happy", "location": "On the couch", "reason": "TV Show", "comments": "Clay talking about his journey as a black man and growing to be a better person cuz of LIB"}, {"date": "2024-03-19", "day": "Tue", "time": "17:30", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Friends", "comments": "Therapy talking about feeling lonely and friendships and standards"}, {"date": "2024-03-31", "day": "Sun", "time": "02:00", "intensity": 2, "type": "Happy", "location": "Outside", "reason": "Friends", "comments": "Finally giving Regina her Xmas/bd gift lol. It took her a while to see the pic but when she finally did she didn't expect it and she started crying which made me start to cry"}, {"date": "2024-03-31", "day": "Sun", "time": "17:00", "intensity": 2, "type": "Angry", "location": "At home", "reason": "Christopher", "comments": "Arguing about finances and his attitude and how it's tiring havign to validate him constantly"}, {"date": "2024-04-03", "day": "Wed", "time": "16:40", "intensity": 2, "type": "Angry", "location": "Car", "reason": "Christopher", "comments": "Crying cuz he lied to me about playing video games then proceed to yell at me"}, {"date": "2024-04-05", "day": "Fri", "time": "10:35", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "Uptown Girls: Molly talking about what happened after her parents died"}, {"date": "2024-04-13", "day": "Sat", "time": "09:30", "intensity": 2, "type": "Happy", "location": "In bed", "reason": "Friends", "comments": "Cried when Regina and I were texting about our frienship and the problems we've been having"}, {"date": "2024-04-22", "day": "Mon", "time": "17:30", "intensity": 4, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": "I'm tired of his carelessness and lack of thinking skills and lack of communication"}, {"date": "2024-04-23", "day": "Tue", "time": "08:00", "intensity": 5, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "I wanna break up"}, {"date": "2024-04-23", "day": "Tue", "time": "09:30", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Money stress Christopher headache"}, {"date": "2024-04-28", "day": "Sun", "time": "00:00", "intensity": 4, "type": "Angry", "location": "In bed", "reason": "Christopher", "comments": "Big fight after he dropped my plant on the couch"}, {"date": "2024-04-28", "day": "Sun", "time": "18:30", "intensity": 2, "type": "Happy", "location": "On the couch", "reason": "Movie", "comments": "Anyone but you"}, {"date": "2024-05-04", "day": "Sat", "time": "14:30", "intensity": 3, "type": "Happy", "location": "Other", "reason": "Christopher", "comments": "ENGAGEDDDDD"}, {"date": "2024-05-05", "day": "Sun", "time": "08:15", "intensity": 2, "type": "Happy", "location": "In bed", "reason": "Family", "comments": "Telling Ayden I'm proud of him through text (at OBX)"}, {"date": "2024-05-18", "day": "Sat", "time": "13:00", "intensity": 4, "type": "Sad", "location": "Car", "reason": "Christopher", "comments": "C ran a red light. Just v tired with him"}, {"date": "2024-05-21", "day": "Tue", "time": "15:00", "intensity": 1, "type": "Sad", "location": "Work", "reason": "Movie", "comments": "The Green Mile"}, {"date": "2024-06-08", "day": "Sat", "time": "13:30", "intensity": 2, "type": "Angry", "location": "On the couch", "reason": "Christopher", "comments": "Fighting about all the things I've done for him and I'm just a bad guy in his story because he doesn't want to keep his promises. All because he wants to play video games and I figured this was a great motivation for him to do stuff\u2026"}, {"date": "2024-06-08", "day": "Sat", "time": "14:10", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "Dear Zachary"}, {"date": "2024-06-25", "day": "Tue", "time": "10:43", "intensity": 2, "type": "Sad", "location": "Work", "reason": "Friends", "comments": "Regina texting me saying I'm a good friend just difficult to understand"}, {"date": "2024-07-15", "day": "Mon", "time": "02:30", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Family", "comments": "Crying and throwing up in the bathroom cuz I'm nauseous and people have opinions about a wedding and others don't even care and it's a day supposed to be about me and no one cares"}, {"date": "2024-07-16", "day": "Tue", "time": "23:20", "intensity": 2, "type": "Sad", "location": "Work", "reason": "Movie", "comments": "Watching Dog Days are Over Gotg ending"}, {"date": "2024-07-16", "day": "Tue", "time": "16:00", "intensity": 2, "type": "Angry", "location": "Car", "reason": "Christopher", "comments": "Christopher driving me home, he hasn't been listening all week. I just want to be heard and understood and he just keeps assuming and he doesn't want to clarify cuz he thinks I'm belittling him and now I'm the one being dramatic and blowing things out of proportion. All because I said \"we should rent half a house and have yearly vacations with Regina\" and and he goes \"so we rent a house yearly\" and I was like wtf that's not what I said. He did it last night too before the VB game and he goes no one is twisting your words calm down and no one said he was even twisting my words? I don't wanna talk to him especially since he's just not gonna listen"}, {"date": "2024-08-04", "day": "Sun", "time": "11:40", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Family", "comments": "Agreed to do the dinner in NJ for Chrissy's family. Wedding planning is stressful when either no one cares or they make it about themselves"}, {"date": "2024-08-18", "day": "Sun", "time": "12:00", "intensity": 2, "type": "Happy", "location": "On the couch", "reason": "TV Show", "comments": "Love is blind U.K."}, {"date": "2024-09-06", "day": "Fri", "time": "11:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "Manchester by the Sea"}, {"date": "2024-09-06", "day": "Fri", "time": "13:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "Beautiful Boy"}, {"date": "2024-09-06", "day": "Fri", "time": "15:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "The Whale"}, {"date": "2024-09-08", "day": "Sun", "time": "09:30", "intensity": 5, "type": "Sad", "location": "At home", "reason": "Christopher", "comments": "He fought with Max about something stupid after we've been arguing recently about him being angry and selfish all the time. Instead of deescalating like I asked him 3x to do, he chose to argue with me instead, leading me to decide to not let Max come here or talk to him anymore. But when I went upstairs, Max was on the floor crying and didn't want this to happen. So now they're talking about how they could fix this."}, {"date": "2024-10-09", "day": "Wed", "time": "10:30", "intensity": 4, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "Stressed and depressed. Took Thursday and Friday off. Had to change car battery and send car to shop and we have no money and I'm stressed about work"}, {"date": "2024-10-17", "day": "Thu", "time": "18:00", "intensity": 1, "type": "Sad", "location": "At home", "reason": "Other", "comments": "Liam's death finally hit me"}, {"date": "2024-10-18", "day": "Fri", "time": "12:00", "intensity": 2, "type": "Angry", "location": "Work", "reason": "Depressed/Life", "comments": "Fuckign work man. Marc sent out an email about prioritizing FluMist and leaving early?? literally have not left early. I know eactly who's complainging too, same as last time. I'm tired of putting in the work and still someone finding something to be upset about."}, {"date": "2024-10-18", "day": "Fri", "time": "18:00", "intensity": 2, "type": "Sad", "location": "At home", "reason": "Other", "comments": "Liam"}, {"date": "2024-10-20", "day": "Sun", "time": "22:00", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Other", "comments": "Liammmmmmmmm noooooo"}, {"date": "2024-10-23", "day": "Wed", "time": "20:00", "intensity": 5, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "ONE DAY ABSOLUTELY TORE ME APART I NEVER WANNA WATCH IT AGAIN IT WAS BEAUTIFUL BUT TERRIBLE AND I WAS SO IN LOVE AND THEY THEY JUST TOOK IT ALL AWAY"}, {"date": "2024-11-01", "day": "Fri", "time": "11:30", "intensity": 2, "type": "Sad", "location": "Work", "reason": "Depressed/Life", "comments": "Too many things to count: work, MedStar, Safee, BD. Couldn't get a grip on what to feel"}, {"date": "2024-11-10", "day": "Sun", "time": "19:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "Les Mis. Also teared up a few times the past few days but forgot to log. It was cuz of tiktoks"}, {"date": "2024-12-12", "day": "Thu", "time": "03:00", "intensity": 5, "type": "Sad", "location": "Other", "reason": "Family", "comments": "Heart to heart with Tita Rose about Daddy and Macky and life"}, {"date": "2024-12-21", "day": "Sat", "time": "19:00", "intensity": 2, "type": "Happy", "location": "Other", "reason": "Family", "comments": "Wedding <3"}, {"date": "2025-01-01", "day": "Wed", "time": "06:30", "intensity": 5, "type": "Sad", "location": "Other", "reason": "Family", "comments": "Leaving the Philippines :("}, {"date": "2025-01-07", "day": "Tue", "time": "16:17", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Asking Macky to be a cosigner"}, {"date": "2025-02-02", "day": "Sun", "time": "12:00", "intensity": 1, "type": "Sad", "location": "Other", "reason": "Other", "comments": "Crying about NEEDING The Weeknd tix"}, {"date": "2025-02-02", "day": "Sun", "time": "22:30", "intensity": 3, "type": "Angry", "location": "At home", "reason": "Christopher", "comments": "Arguing because he doesn't know when to stop and we got into a big argument and i said some things i shouldn't have said that were really mean"}, {"date": "2025-02-21", "day": "Fri", "time": "13:30", "intensity": 2, "type": "Happy", "location": "On the couch", "reason": "TikTok", "comments": "watched a tiktok of a little girl on her birthday at a restaurant and they're singing her happy birthday and she goes to her dad and hugs him"}, {"date": "2025-02-21", "day": "Fri", "time": "14:30", "intensity": 2, "type": "Happy", "location": "On the couch", "reason": "Friends", "comments": "Phoebe randomly popped up on my FYP and it was a vid of her crying and getting into nursing school"}, {"date": "2025-03-05", "day": "Wed", "time": "12:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Everything sucks and everyone sucks, but most importantly I suck. no one cares about me. everyone just goes on and lives their life and i'm just stuck and no one cares. everyone else is better. i hate being mean all the time. Regina is not talking and i know she's mad at me. gabi is smarter than me. i'm just so in my head"}, {"date": "2025-03-05", "day": "Wed", "time": "14:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-03-05", "day": "Wed", "time": "19:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-03-05", "day": "Wed", "time": "20:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-03-05", "day": "Wed", "time": "21:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-03-08", "day": "Sat", "time": "13:00", "intensity": 3, "type": "Happy", "location": "On the couch", "reason": "Movie", "comments": "Lion"}, {"date": "2025-03-08", "day": "Sat", "time": "15:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TikTok", "comments": "People being surprised by their parents who they haven't seen for ike 15+ years on their BD"}, {"date": "2025-03-08", "day": "Sat", "time": "16:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "On the phone with Seatgeek. Can't sell the VIP tickets so I'm just out $4k :)"}, {"date": "2025-04-21", "day": "Mon", "time": "15:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Family", "comments": "FT with T Rose and Daddy, he's drunk and being emo talking about the day he left us"}, {"date": "2025-04-21", "day": "Mon", "time": "18:00", "intensity": 5, "type": "Sad", "location": "On the couch", "reason": "Christopher", "comments": "Fight with Chrissy and triggered me about what Mommy said about me being in the hospital"}, {"date": "2025-04-21", "day": "Mon", "time": "22:20", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Friends", "comments": "Realized I gave Regina the wrong date for August, brushed off, won't be going to Bach party"}, {"date": "2025-04-22", "day": "Tue", "time": "10:00", "intensity": 5, "type": "Angry", "location": "At home", "reason": "Friends", "comments": "Regina. Crashed out for a few days"}, {"date": "2025-04-22", "day": "Tue", "time": "11:00", "intensity": 5, "type": "Angry", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-22", "day": "Tue", "time": "13:00", "intensity": 5, "type": "Angry", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-22", "day": "Tue", "time": "14:00", "intensity": 5, "type": "Angry", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-22", "day": "Tue", "time": "15:00", "intensity": 5, "type": "Angry", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-22", "day": "Tue", "time": "16:00", "intensity": 5, "type": "Angry", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-23", "day": "Wed", "time": "10:00", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-23", "day": "Wed", "time": "11:00", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-23", "day": "Wed", "time": "13:00", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-23", "day": "Wed", "time": "14:00", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-23", "day": "Wed", "time": "15:00", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-23", "day": "Wed", "time": "16:00", "intensity": 4, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-24", "day": "Thu", "time": "10:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-24", "day": "Thu", "time": "11:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Friends", "comments": "This is all an estimate lets be honest. But it was a mess"}, {"date": "2025-04-24", "day": "Thu", "time": "13:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-24", "day": "Thu", "time": "14:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-24", "day": "Thu", "time": "15:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-24", "day": "Thu", "time": "16:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-25", "day": "Fri", "time": "13:00", "intensity": 2, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-25", "day": "Fri", "time": "14:00", "intensity": 2, "type": "Sad", "location": "At home", "reason": "Friends", "comments": ""}, {"date": "2025-04-29", "day": "Tue", "time": "11:40", "intensity": 3, "type": "Happy", "location": "On the couch", "reason": "YouTube", "comments": "Listening to Defying Gravity and I was just moved lol. The story, the song, Ariana, knowing this was Ariana's  dream role"}, {"date": "2025-05-09", "day": "Fri", "time": "10:00", "intensity": 2, "type": "Angry", "location": "Other", "reason": "Friends", "comments": "Crying to Phoebe as I was packing about Bri lying to me"}, {"date": "2025-05-09", "day": "Fri", "time": "23:00", "intensity": 3, "type": "Angry", "location": "Car", "reason": "Christopher", "comments": "Had a fight on the drive home from the airport cuz he was being selfish and decided to road rage instead of be happy i was home"}, {"date": "2025-05-10", "day": "Sat", "time": "16:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Friends", "comments": "Heart to heart with Regina"}, {"date": "2025-05-31", "day": "Sat", "time": "12:00", "intensity": 3, "type": "Happy", "location": "Other", "reason": "Other", "comments": "Laughing with Phoebe about group last night, \"NBA playoffs\""}, {"date": "2025-05-31", "day": "Sat", "time": "17:00", "intensity": 5, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-05-31", "day": "Sat", "time": "18:00", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-05-31", "day": "Sat", "time": "19:00", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-05-31", "day": "Sat", "time": "20:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-06-01", "day": "Sun", "time": "11:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-06-01", "day": "Sun", "time": "14:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-06-02", "day": "Mon", "time": "14:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-06-10", "day": "Tue", "time": "11:00", "intensity": 3, "type": "Sad", "location": "Outside", "reason": "Family", "comments": "Talking to P and G about T Dale"}, {"date": "2025-06-14", "day": "Sat", "time": "13:30", "intensity": 2, "type": "Sad", "location": "Other", "reason": "Other", "comments": "Empathy cry with Pheebs"}, {"date": "2025-06-16", "day": "Mon", "time": "20:00", "intensity": 3, "type": "Happy", "location": "Other", "reason": "Movie", "comments": "Watching How to Train Your Dragon"}, {"date": "2025-06-23", "day": "Mon", "time": "08:45", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Just feeling like I suck and people don't like me and whatnot you know, the ushe"}, {"date": "2025-06-27", "day": "Fri", "time": "14:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "Squid Games finale"}, {"date": "2025-06-27", "day": "Fri", "time": "20:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "Rewatching The Bear, Forks got me. And the finale of season 2"}, {"date": "2025-07-18", "day": "Fri", "time": "11:30", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "TSITP... Taylor and Steven >>>>>>>>>"}, {"date": "2025-07-18", "day": "Fri", "time": "14:00", "intensity": 5, "type": "Sad", "location": "On the couch", "reason": "Movie", "comments": "A Star is Born"}, {"date": "2025-08-11", "day": "Mon", "time": "10:30", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "Stress from finals, with Phoebe at Tous les Jours"}, {"date": "2025-08-12", "day": "Tue", "time": "21:00", "intensity": 2, "type": "Sad", "location": "Other", "reason": "Other", "comments": "At Jonas Brothers concert and Regina telling me about her dad and the song she's gonna dance to and she's gonna do it with her grandpa"}, {"date": "2025-08-30", "day": "Sat", "time": "21:00", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "Bach"}, {"date": "2025-08-31", "day": "Sun", "time": "00:00", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "Bach"}, {"date": "2025-09-01", "day": "Mon", "time": "10:00", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Christopher", "comments": "feeling overwhelmed, left out, ugly, unworthy"}, {"date": "2025-09-02", "day": "Tue", "time": "13:00", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Christopher", "comments": "yelled at me in the movie while watching Toxic Avenger"}, {"date": "2025-09-02", "day": "Tue", "time": "16:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Christopher", "comments": "FIghting about our relationship ending"}, {"date": "2025-09-02", "day": "Tue", "time": "20:00", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Christopher", "comments": "I don't love him anymore I think"}, {"date": "2025-09-03", "day": "Wed", "time": "12:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "TSITP"}, {"date": "2025-09-03", "day": "Wed", "time": "21:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "I hate myself"}, {"date": "2025-09-05", "day": "Fri", "time": "20:00", "intensity": 4, "type": "Sad", "location": "Outside", "reason": "Depressed/Life", "comments": "Phoebe made me cry lol talking about my feelings in Commonwealth brewing company"}, {"date": "2025-09-07", "day": "Sun", "time": "22:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "Texting Regina and Helen about how I've been feeling. Feeling judged by Regina. Feeling alone"}, {"date": "2025-09-08", "day": "Mon", "time": "08:00", "intensity": 4, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "I am the problem"}, {"date": "2025-09-09", "day": "Tue", "time": "22:30", "intensity": 3, "type": "Sad", "location": "At home", "reason": "Depressed/Life", "comments": "I'm so tired"}, {"date": "2025-09-09", "day": "Tue", "time": "23:30", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Texting Helen"}, {"date": "2025-09-11", "day": "Thu", "time": "11:00", "intensity": 2, "type": "Sad", "location": "At home", "reason": "Depressed/Life", "comments": "Regina finally texted back. Tearing up during AG2"}, {"date": "2025-09-11", "day": "Thu", "time": "12:00", "intensity": 5, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "Telling Phoebe and Gabi what's been going on"}, {"date": "2025-09-21", "day": "Sun", "time": "12:00", "intensity": 2, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-09-22", "day": "Mon", "time": "08:00", "intensity": 2, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-09-23", "day": "Tue", "time": "08:00", "intensity": 2, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-09-24", "day": "Wed", "time": "13:00", "intensity": 2, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-09-25", "day": "Thu", "time": "08:00", "intensity": 2, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-09-25", "day": "Thu", "time": "16:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Friends", "comments": "Drive back home thinking about Regina and all the people who didn't wanna be friends with me anymore"}, {"date": "2025-09-25", "day": "Thu", "time": "17:00", "intensity": 2, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Talking to Phoebe about how I've been feeling"}, {"date": "2025-09-25", "day": "Thu", "time": "23:00", "intensity": 5, "type": "Sad", "location": "In bed", "reason": "Christopher", "comments": "Fight with Christopher. I can't do this anymore"}, {"date": "2025-09-29", "day": "Mon", "time": "10:00", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Friends", "comments": ""}, {"date": "2025-09-30", "day": "Tue", "time": "22:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-10-08", "day": "Wed", "time": "10:00", "intensity": 2, "type": "Sad", "location": "At home", "reason": "TikTok", "comments": "I think it was people finishing a marathon tiktok while on the toilet lol"}, {"date": "2025-10-08", "day": "Wed", "time": "17:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "therapy appt and crying over Regina and my life and being sad and depressed"}, {"date": "2025-10-09", "day": "Thu", "time": "17:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "YouTube", "comments": "Louis' interview and hearing him talk about 1D"}, {"date": "2025-11-02", "day": "Sun", "time": "16:00", "intensity": 2, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "Bad birthday, Christopher made it worse"}, {"date": "2025-11-03", "day": "Mon", "time": "12:00", "intensity": 4, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "Cried multiple times"}, {"date": "2025-11-09", "day": "Sun", "time": "18:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "Therapy talking about my marriage, birthday, life"}, {"date": "2025-11-16", "day": "Sun", "time": "18:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "Therapy talking about my marriage, birthday, life"}, {"date": "2025-11-26", "day": "Wed", "time": "18:00", "intensity": 4, "type": "Sad", "location": "In bed", "reason": "Depressed/Life", "comments": "therapy talking about my marriage, life"}, {"date": "2025-11-29", "day": "Sat", "time": "16:00", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "at the mall talking about how Christopher's family is mad at me about thanksgiving"}, {"date": "2025-11-29", "day": "Sat", "time": "17:00", "intensity": 3, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "at AMC about to watch zootopia 2 talking about how Christopher's family is mad at me about thanksgiving"}, {"date": "2025-11-29", "day": "Sat", "time": "20:30", "intensity": 4, "type": "Sad", "location": "Other", "reason": "Depressed/Life", "comments": "Crying at mommy's appt, ayden saying i suck at VB just made it worse"}, {"date": "2025-11-30", "day": "Sun", "time": "17:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Sad about life"}, {"date": "2025-12-01", "day": "Mon", "time": "19:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Family", "comments": "Crying about Ayden and Christopher's family"}, {"date": "2025-12-02", "day": "Tue", "time": "16:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Family", "comments": "Crying about Ayden and Christopher's family"}, {"date": "2025-12-03", "day": "Wed", "time": "20:00", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Family", "comments": "Crying about Ayden and Christopher's family"}, {"date": "2025-12-04", "day": "Thu", "time": "20:00", "intensity": 3, "type": "Sad", "location": "In bed", "reason": "Family", "comments": "Crying about Ayden and Christopher's family"}, {"date": "2025-12-08", "day": "Mon", "time": "23:00", "intensity": 4, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Crying in the car before the game"}, {"date": "2025-12-08", "day": "Mon", "time": "23:00", "intensity": 1, "type": "Sad", "location": "Other", "reason": "Other", "comments": "Lost the playoff cuz of me"}, {"date": "2025-12-09", "day": "Tue", "time": "16:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "The Bear"}, {"date": "2025-12-10", "day": "Wed", "time": "16:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "TV Show", "comments": "The Bear"}, {"date": "2025-12-11", "day": "Thu", "time": "13:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": "Phoebe lunch misunderstanding, someone honked at my while tailing ME, over all I just suck"}, {"date": "2025-12-12", "day": "Fri", "time": "14:00", "intensity": 3, "type": "Sad", "location": "Car", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-12-12", "day": "Fri", "time": "18:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-12-13", "day": "Sat", "time": "17:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "While playing and (finally) finishing Spider Man 2, I just wanna die. thought about writing letters and when I'm gonna do it. texted Regina about the whole thing to see if it'll help me feel better. But like, I know she has her own problems and I'm just a side character in her life."}, {"date": "2025-12-13", "day": "Sat", "time": "19:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": ""}, {"date": "2025-12-13", "day": "Sat", "time": "20:00", "intensity": 4, "type": "Sad", "location": "On the couch", "reason": "Christopher", "comments": "Fighting with C"}, {"date": "2025-12-14", "day": "Sun", "time": "01:00", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Depressed/Life", "comments": "Sent Phobe an apology text, wrote about wanting to die"}, {"date": "2025-12-14", "day": "Sun", "time": "10 am", "intensity": 3, "type": "Sad", "location": "On the couch", "reason": "Friends", "comments": ""}];
 
     let entries = JSON.parse(localStorage.getItem('crylendar_entries') || 'null');
-    if (!entries || entries.length < 15) {
-      fetch('crylendar_all_data.json')
-        .then(r => r.json())
-        .then(data => {
-          entries = data;
-          localStorage.setItem('crylendar_entries', JSON.stringify(entries));
-          applyFilters();
-        })
-        .catch(() => {
-          entries = fallbackSeedData;
-          localStorage.setItem('crylendar_entries', JSON.stringify(entries));
-          applyFilters();
-        });
+    if (!entries || entries.length < 50) {
+      entries = [...masterArchiveData];
+      localStorage.setItem('crylendar_entries', JSON.stringify(entries));
     }
 
     let chartTime = null;
@@ -693,6 +708,128 @@
       container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       element.classList.add('active');
       document.getElementById(field).value = val;
+    }
+
+    function reloadEmbeddedMaster() {
+      if (confirm('Reload the 210 pre-loaded historical entries from your Google Sheet?')) {
+        entries = [...masterArchiveData];
+        localStorage.setItem('crylendar_entries', JSON.stringify(entries));
+        applyFilters();
+        alert('Restored 210 historical entries!');
+      }
+    }
+
+    function handleCSVImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
+        if (lines.length < 2) {
+          alert('CSV appears empty or invalid.');
+          return;
+        }
+
+        function parseCSVLine(line) {
+          const res = [];
+          let current = '';
+          let inQuotes = false;
+          for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"' || char === "'") {
+              inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+              res.push(current.trim());
+              current = '';
+            } else {
+              current += char;
+            }
+          }
+          res.push(current.trim());
+          return res.map(v => v.replace(/^["']|["']$/g, '').trim());
+        }
+
+        let headerIdx = -1;
+        let dateIdx = -1, dayIdx = -1, timeIdx = -1, intIdx = -1, typeIdx = -1, locIdx = -1, rsnIdx = -1, comIdx = -1;
+
+        for (let i = 0; i < Math.min(lines.length, 10); i++) {
+          const cols = parseCSVLine(lines[i]).map(c => c.toLowerCase());
+          if (cols.includes('date') && cols.includes('day')) {
+            headerIdx = i;
+            dateIdx = cols.indexOf('date');
+            dayIdx = cols.indexOf('day');
+            timeIdx = cols.indexOf('time');
+            intIdx = cols.indexOf('intensity');
+            typeIdx = cols.indexOf('type');
+            locIdx = cols.indexOf('location');
+            rsnIdx = cols.indexOf('reason');
+            comIdx = cols.indexOf('comments');
+            break;
+          }
+        }
+
+        if (headerIdx === -1) {
+          alert('Could not find Date/Day header in CSV. Please verify file format.');
+          return;
+        }
+
+        const newLogs = [];
+        for (let i = headerIdx + 1; i < lines.length; i++) {
+          const row = parseCSVLine(lines[i]);
+          if (!row[dateIdx] || row[dateIdx].toLowerCase().includes('date') || row[dateIdx].toLowerCase().includes('legend')) continue;
+
+          let rawDate = row[dateIdx];
+          let formattedDate = rawDate;
+          const parsedD = new Date(rawDate);
+          if (!isNaN(parsedD.getTime())) {
+            formattedDate = parsedD.toISOString().split('T')[0];
+          }
+
+          let rawTime = row[timeIdx] || '12:00';
+          let timeVal = '12:00';
+          if (rawTime.includes('AM') || rawTime.includes('PM')) {
+            const parts = rawTime.split(' ');
+            let [h, m] = parts[0].split(':');
+            h = parseInt(h, 10);
+            if (parts[1] === 'PM' && h < 12) h += 12;
+            if (parts[1] === 'AM' && h === 12) h = 0;
+            timeVal = `${String(h).padStart(2, '0')}:${m || '00'}`;
+          } else {
+            timeVal = rawTime.slice(0, 5);
+          }
+
+          newLogs.push({
+            id: Date.now() + i,
+            date: formattedDate,
+            day: row[dayIdx] || 'Mon',
+            time: timeVal,
+            intensity: parseInt(row[intIdx], 10) || 2,
+            type: row[typeIdx] || 'Sad',
+            location: row[locIdx] || 'Other',
+            reason: row[rsnIdx] || 'Depressed/Life',
+            comments: row[comIdx] || ''
+          });
+        }
+
+        const existingKeys = new Set(entries.map(e => `${e.date}_${e.time}_${e.reason}`));
+        let added = 0;
+        newLogs.forEach(n => {
+          const key = `${n.date}_${n.time}_${n.reason}`;
+          if (!existingKeys.has(key)) {
+            entries.push(n);
+            existingKeys.add(key);
+            added++;
+          }
+        });
+
+        entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+        localStorage.setItem('crylendar_entries', JSON.stringify(entries));
+        alert(`Successfully imported ${added} new entries! (Total logs: ${entries.length})`);
+        applyFilters();
+      };
+      reader.readAsText(file);
     }
 
     function saveWebhookUrl() {
